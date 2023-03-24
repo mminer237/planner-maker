@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Planner Maker</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<header>
+			<h1>Planner Maker</h1>
+		</header>
+		<form>
+			<label for="number-of-months">Number of Months:</label>
+			<input type="number" id="number-of-months" name="number-of-months" min="1" step="1" value="12">
+			<label for="start-offset">Months until Start:</label>
+			<input type="number" id="start-offset" name="start-offset" min="0" step="1" value="1">
+			<button id="generate">Generate</button>
+		</form>
+</html>

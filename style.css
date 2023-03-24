@@ -1,0 +1,10 @@
+:root {
+
+}
+* {
+	font-family: sans-serif;
+}
+form > * {
+	display: block;
+	margin: 0.5em 0;
+}

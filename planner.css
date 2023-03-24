@@ -1,0 +1,69 @@
+:root {
+	--accent-color: #800080;
+	--heavy-background: #800080dd;
+	--light-background: #80008040;
+	--very-light-background: #80008020;
+}
+
+body {
+	font-family: sans-serif;
+	font-size: 14pt;
+}
+
+h1 {
+	font-size: 64pt;
+	text-align: center;
+	width: 100%;
+}
+
+.author {
+	font-size: 22pt;
+	text-align: center;
+}
+
+.page-break {
+	page-break-after: always;
+}
+
+@media screen {
+	header, footer, .page-break {
+		display: none;
+	}
+}
+
+@media print {
+	header, footer {
+		position: fixed;
+	}
+	header {
+		top: 0;
+	}
+	footer {
+		bottom: 0;
+	}
+}
+
+.calendar {
+	background-color: var(--very-light-background);
+	display: inline-block;
+	margin: 10px;
+	padding: 10px;
+	width: 100%;
+	height: 100%;
+	aspect-ratio: 1;
+}
+
+.calendar table {
+	aspect-ratio: 1;
+}
+
+.calendar :is(table, tbody, tr) {
+	width: calc(100% - 20px);
+}
+
+.calendar td {
+	background-color: var(--light-background);
+	aspect-ratio: 1;
+	padding: 8px;
+	vertical-align: top;
+}
