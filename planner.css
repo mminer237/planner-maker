@@ -5,6 +5,14 @@
 	--very-light-background: #80008020;
 }
 
+* {
+	position: relative;
+}
+
+html, body {
+	height: 100%;
+}
+
 body {
 	font-family: sans-serif;
 	font-size: 14pt;
@@ -21,25 +29,27 @@ h1 {
 	text-align: center;
 }
 
-.page-break {
-	page-break-after: always;
+.page {
+	clear: both;
+	height: 100%;
 }
 
 @media screen {
-	header, footer, .page-break {
+	header, .footer {
 		display: none;
 	}
 }
 
 @media print {
-	header, footer {
-		position: fixed;
-	}
 	header {
+		position: fixed;
 		top: 0;
 	}
-	footer {
+
+	.footer {
 		bottom: 0;
+		position: absolute;
+		margin-top: auto;
 	}
 }
 
@@ -49,7 +59,6 @@ h1 {
 	margin: 10px;
 	padding: 10px;
 	width: 100%;
-	height: 100%;
 	aspect-ratio: 1;
 }
 
