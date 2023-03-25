@@ -9,6 +9,7 @@ const numberOfYears = Math.floor((startingDate.getMonth() + numberOfMonths) / 12
 const endingDate = new Date(startingDate.getFullYear() + numberOfYears, ((startingDate.getMonth() + numberOfMonths) % 12) + 1, 0);
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const weekdayAbbreviations = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 let page = 1;
 
 document.getElementById("generate").onclick = generate;
@@ -23,13 +24,12 @@ function generate() {
 		newWindow.print();
 	};
 	/* Draw title page */
-	newWindow.document.head.innerHTML = '';
+	newWindow.document.head.innerHTML = `<title>${title}</title>
+	<link rel="stylesheet" href="planner.css">`;
 	newWindow.document.body.innerHTML = '';
 	newWindow.document.write(`<!DOCTYPE html>
 	<html>
 		<head>
-			<title>${title}</title>
-			<link rel="stylesheet" href="planner.css">
 		</head>
 		<body>
 			<div class="page">
@@ -67,7 +67,7 @@ function generate() {
 }
 generate(); // For testing
 
-function drawCalendar(window, year, month) {
+function drawCalendar(window, year, month) { // TODO: Split across two pages
 	const date = new Date(year, month, 1);
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const firstDay = date.getDay();
@@ -75,36 +75,47 @@ function drawCalendar(window, year, month) {
 	const monthName = monthNames[month];
 
 	window.document.write(`<div class="calendar">
-		<h2>${monthName}</h2>
-		<table>
-			<tr>
-				<th>Sun</th>
-				<th>Mon</th>
-				<th>Tue</th>
-				<th>Wed</th>
-				<th>Thu</th>
-				<th>Fri</th>
-				<th>Sat</th>
-			</tr>`);
-	let dayOfMonth = 1;
-	let dayOfWeek = firstDay;
-	for (let week = 0; week < 5; week++) {
+		<h2>${monthName}</h2>`);
+	drawHalfCalendar(window, year, month, 0, 4);
+	window.document.write('</div>');
+	insertPageBreak(window);
+	window.document.write('<div class="calendar">');
+	drawHalfCalendar(window, year, month, 4, 7);
+	window.document.write('</div>');
+	insertPageBreak(window);
+}
+
+function drawHalfCalendar(window, year, month, startDay, endDay) {
+	const date = new Date(year, month, 1);
+	const daysInMonth = new Date(year, month + 1, 0).getDate();
+	const firstDay = date.getDay();
+	const lastDay = new Date(year, month, daysInMonth).getDay();
+	const monthName = monthNames[month];
+
+	window.document.write('<table><tr>');
+	for (let i = startDay; i < endDay; i++) {
+		window.document.write(`<th>${weekdayAbbreviations[i]}</th>`);
+	}
+	window.document.write('</tr>');
+	let dayOfMonth = Math.max(1, 1 - firstDay + startDay);
+	let dayOfWeek = Math.max(firstDay, startDay);
+	for (let week = 0; week < 6; week++) {
 		window.document.write(`<tr>`);
-		for (let i = 0; i < dayOfWeek; i++) {
-			window.document.write(`<td></td>`);
+		for (let i = startDay; i < dayOfWeek && i < endDay; i++) {
+			window.document.write(`<td>&nbsp;</td>`);
 		}
-		for (; dayOfWeek < 7; dayOfWeek++) {
+		for (; dayOfWeek < endDay; dayOfWeek++) {
 			if (dayOfMonth <= daysInMonth) {
 				window.document.write(`<td>${dayOfMonth++}</td>`);
 			} else {
-				window.document.write(`<td></td>`);
+				window.document.write(`<td>&nbsp;</td>`);
 			}
 		}
 		window.document.write(`</tr>`);
-		dayOfWeek = 0;
+		dayOfMonth += 7 - dayOfWeek + startDay;
+		dayOfWeek = startDay;
 	}
-	window.document.write(`</table></div>`);
-	insertPageBreak(window);
+	window.document.write(`</table>`);
 }
 
 function insertPageBreak(window) {
