@@ -33,10 +33,12 @@ function generate() {
 		</head>
 		<body>
 			<div class="page">
-				<h1>${title}</h1>
-				<div class="author">
-					<p>By</p>
-					<p>Matthew &amp; Samantha Miner</p>
+				<div>
+					<h1>${title}</h1>
+					<div class="author">
+						<p>By</p>
+						<p>Matthew &amp; Samantha Miner</p>
+					</div>
 				</div>`);
 	insertPageBreak(newWindow);
 
@@ -67,21 +69,25 @@ function generate() {
 }
 generate(); // For testing
 
-function drawCalendar(window, year, month) { // TODO: Split across two pages
+function drawCalendar(window, year, month) {
 	const date = new Date(year, month, 1);
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const firstDay = date.getDay();
 	const lastDay = new Date(year, month, daysInMonth).getDay();
 	const monthName = monthNames[month];
 
+	/* Draw left page */
 	window.document.write(`<div class="calendar">
 		<h2>${monthName}</h2>`);
 	drawHalfCalendar(window, year, month, 0, 4);
 	window.document.write('</div>');
 	insertPageBreak(window);
-	window.document.write('<div class="calendar">');
+
+	/* Draw right page */
+	window.document.write('<div class="calendar half-calendar">');
 	drawHalfCalendar(window, year, month, 4, 7);
 	window.document.write('</div>');
+	drawNotes(window);
 	insertPageBreak(window);
 }
 
@@ -116,6 +122,13 @@ function drawHalfCalendar(window, year, month, startDay, endDay) {
 		dayOfWeek = startDay;
 	}
 	window.document.write(`</table>`);
+}
+
+function drawNotes(window) {
+	window.document.write(`<aside class="notes right">
+		<h2>Notes</h2>
+		${(('_'.repeat(13) + '<br>').repeat(7) + '<br>').repeat(4)}
+	</aside>`);
 }
 
 function insertPageBreak(window) {

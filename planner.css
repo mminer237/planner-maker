@@ -7,10 +7,12 @@
 
 * {
 	position: relative;
+	box-sizing: border-box;
 }
 
 html, body {
 	height: 100%;
+	margin: 0;
 	width: calc(100% - 10px);
 }
 
@@ -25,14 +27,28 @@ h1 {
 	width: 100%;
 }
 
+h2 {
+	font-size: 21pt;
+	line-height: 32px;
+	margin: 10px 0;
+}
+
 .author {
 	font-size: 22pt;
 	text-align: center;
 }
 
 .page {
-	clear: both;
-	height: 100%;
+	display: grid;
+	column-gap: 10px;
+	grid-template-columns: 1fr 25% 25% 1fr;
+	height: calc(100%);
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.page :first-child:nth-last-child(2) {
+	grid-column: 1 / span 4;
 }
 
 @media screen {
@@ -48,7 +64,7 @@ h1 {
 	}
 
 	.footer {
-		bottom: 0;
+		bottom: 10px;
 		position: absolute;
 		margin-top: auto;
 	}
@@ -56,24 +72,45 @@ h1 {
 
 .calendar {
 	background-color: var(--very-light-background);
-	display: inline-block;
-	margin: 10px;
-	padding: 10px;
-	width: 100%;
-	aspect-ratio: 1;
+	grid-column: 1 / span 4;
+	padding: 5px;
+}
+
+.calendar.half-calendar {
+	grid-column: 1 / span 3;
+	padding-top: 52px;
 }
 
 .calendar table {
-	aspect-ratio: 1;
+	border-spacing: 5px;
+	height: calc(100% - 52px);
+}
+
+.calendar.half-calendar table {
+	height: 100%;
 }
 
 .calendar :is(table, tbody, tr) {
-	width: calc(100% - 20px);
+	width: 100%;
 }
 
 .calendar td {
 	background-color: var(--light-background);
-	aspect-ratio: 1;
-	padding: 8px;
+	padding: 9px;
 	vertical-align: top;
+}
+
+aside {
+	padding: 10px;
+}
+
+aside.right {
+	grid-column: 4;
+	height: 100%;
+}
+
+.notes {
+	background-color: var(--very-light-background);
+	height: 100%;
+	word-break: break-all;
 }
